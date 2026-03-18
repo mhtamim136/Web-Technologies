@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Form</title>
+</head>
+<body>
+    <h1>User Information Form</h1>
+
+    <form id="userForm">
+        <div>
+            <label for="nameInput">Enter Your Name:</label>
+            <input type="text" id="nameInput" placeholder="Enter your full name">
+        </div>
+
+        <br><br>
+
+        <div>
+            <label>Select Your Gender:</label>
+            <label>
+                <input type="radio" name="gender" value="Male"> Male
+            </label>
+            <label>
+                <input type="radio" name="gender" value="Female"> Female
+            </label>
+        </div>
+
+        <br><br>
+
+        <button type="button" onclick="submitForm();">Submit</button>
+    </form>
+
+    <br><br>
+
+    <div id="tableWrapper"></div>
+
+    <script>
+        const tableWrapper = document.getElementById("tableWrapper");
+
+        function submitForm() {
+            const nameInput = document.getElementById("nameInput");
+            const name = nameInput.value.trim();
+            const gender = document.querySelector('input[name="gender"]:checked');
+
+            if (name === "" || !gender) {
+                return;
+            }
+
+            addRowToTable(name, gender.value);
+
+            nameInput.value = "";
+            document.querySelector('input[name="gender"]:checked').checked = false;
+        }
+
+        function addRowToTable(name, gender) {
+            let table = document.querySelector("table");
+
+            if (!table) {
+                table = document.createElement("table");
+                table.border = "1";
+                
+                const thead = document.createElement("thead");
+                const headerRow = document.createElement("tr");
+                
+                const nameHeader = document.createElement("th");
+                nameHeader.textContent = "Name";
+                
+                const genderHeader = document.createElement("th");
+                genderHeader.textContent = "Gender";
+                
+                headerRow.appendChild(nameHeader);
+                headerRow.appendChild(genderHeader);
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+                
+                const tbody = document.createElement("tbody");
+                table.appendChild(tbody);
+                
+                tableWrapper.appendChild(table);
+            }
+
+            const tbody = table.querySelector("tbody");
+
+            const newRow = document.createElement("tr");
+
+            const nameCell = document.createElement("td");
+            const nameText = document.createTextNode(name);
+            nameCell.appendChild(nameText);
+
+            const genderCell = document.createElement("td");
+            const genderText = document.createTextNode(gender);
+            genderCell.appendChild(genderText);
+
+            newRow.appendChild(nameCell);
+            newRow.appendChild(genderCell);
+
+            tbody.appendChild(newRow);
+        }
+    </script>
+</body>
+</html>
